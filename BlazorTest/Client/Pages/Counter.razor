@@ -1,0 +1,49 @@
+﻿@page "/counter"
+
+<h1>Counter</h1>
+
+<p>Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<select multiple class="form-control">
+    @foreach (var item in forecasts)
+    {
+        <option value="@item" @onclick=@((e) => OptionClickEvent(@item,e))>@item</option>
+    }
+</select>
+
+<p>Selected Value: @string.Join(',', lstValues)</p>
+
+@code {
+    private int currentCount = 0;
+    private List<string> lstValues = new List<string>();
+    public string val { get; set; }
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+
+    private string[] forecasts;
+
+    protected override void OnInitialized()
+    {
+        forecasts = new string[] { "Summer", "Winter", "Autumn", "Spring" };
+    }
+
+    public void OptionClickEvent(string values, MouseEventArgs evnt)
+    {
+        if (evnt.CtrlKey)
+        {
+            if (lstValues.Exists(x => x == values))
+                lstValues.Remove(values);
+            else
+                lstValues.Add(values.ToString());
+        }
+        else
+        {
+            lstValues.Clear();
+            lstValues.Add(values.ToString());
+        }
+    }
+}
