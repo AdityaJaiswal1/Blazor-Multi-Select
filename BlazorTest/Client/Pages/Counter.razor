@@ -1,18 +1,29 @@
 ﻿@page "/counter"
+@inject IJSRuntime JS
 
 <h1>Counter</h1>
 
 <p>Current count: @currentCount</p>
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<h3>Normal</h3>
 <select multiple class="form-control">
     @foreach (var item in forecasts)
     {
-        <option value="@item" @onclick=@((e) => OptionClickEvent(@item,e))>@item</option>
+        <option value="@item" @onclick=@((e) => OptionClickEvent(@item, e))>@item</option>
     }
 </select>
-
 <p>Selected Value: @string.Join(',', lstValues)</p>
+
+<h3>Bootstrap Multi Select</h3>
+
+<select multiple class="form-control" id="ddlForecast">
+    @foreach (var item in forecasts)
+    {
+        <option value="@item">@item</option>
+    }
+</select>
+<p>Selected Value: <span id="vals"></span></p>
 
 @code {
     private int currentCount = 0;
@@ -29,6 +40,12 @@
     protected override void OnInitialized()
     {
         forecasts = new string[] { "Summer", "Winter", "Autumn", "Spring" };
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JS.InvokeVoidAsync("initDDLs", null);
+        await base.OnAfterRenderAsync(firstRender);
     }
 
     public void OptionClickEvent(string values, MouseEventArgs evnt)

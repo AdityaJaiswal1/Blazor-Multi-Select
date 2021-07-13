@@ -48,6 +48,34 @@
                 return;
             }
         }
+
+        function initDDLs() {
+            $("#ddlForecast").multiselect({
+                enableCaseInsensitiveFiltering: true,
+                enableFiltering: true,
+                maxHeight: '300',
+                buttonWidth: '235',
+                onChange: function () {
+                    let vals = $('#ddlForecast option:selected');
+                    var selected = [];
+                    $(vals).each(function (index, brand) {
+                        selected.push([$(this).val()]);
+                    });
+
+                    $('#vals').html(selected.join(','));
+                }
+            });
+        }
     </script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+
+    <script src="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.16/js/bootstrap-multiselect.min.js"></script>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.16/css/bootstrap-multiselect.min.css">
 </body>
 </html>
